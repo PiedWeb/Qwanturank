@@ -79,6 +79,7 @@ class Qwanturank
         $Qwant->setLanguage('fr')
                  ->setSleep(6)  // to wait between 2 requests on Qwant
                  ->setNbrPage(10) // Nbr de page à extraire
+                 ->setCacheFolder(null)
         ;
 
         $this->qwantResults = $Qwant->extractResults();
