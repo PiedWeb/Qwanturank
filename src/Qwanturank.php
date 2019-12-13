@@ -2,34 +2,30 @@
 
 namespace PiedWeb\Qwanturank;
 
-use rOpenDev\Qwant\QwantSearchViaCurl;
 use rOpenDev\Google\SearchViaCurl;
-use rOpenDev\Google\TestProxy;
-use rOpenDev\Google\SafeBrowsing;
+use rOpenDev\Qwant\QwantSearchViaCurl;
 
 class Qwanturank
 {
-
     protected $googleResults;
     protected $qwantResults;
     protected $kw;
 
-    static function compare($kw = 'qwanturank')
+    public static function compare($kw = 'qwanturank')
     {
         $qwanturank = new self($kw);
 
         $results = [];
         $position = 0;
         foreach ($qwanturank->getQwantResults() as $item) {
-            $position++;
+            ++$position;
 
             $results[] = [
-                'title'     => $item['title'],
-                'url'       => $item['link'],
-                'google'    => $qwanturank->getGooglePositionFor($item['link']),
-                'position'  => $position
+                'title' => $item['title'],
+                'url' => $item['link'],
+                'google' => $qwanturank->getGooglePositionFor($item['link']),
+                'position' => $position,
             ];
-
         }
 
         return $results;
@@ -40,10 +36,11 @@ class Qwanturank
         $this->kw = $kw;
     }
 
-    public function getGooglePositionFor($url) {
-        foreach($this->getGoogleResults() as $k => $item) {
-            if ($item['link'] == $url)  {
-                return $k+1;
+    public function getGooglePositionFor($url)
+    {
+        foreach ($this->getGoogleResults() as $k => $item) {
+            if ($item['link'] == $url) {
+                return $k + 1;
             }
         }
 
@@ -52,8 +49,9 @@ class Qwanturank
 
     public function getGoogleResults()
     {
-        if ($this->googleResults)
+        if ($this->googleResults) {
             return $this->googleResults;
+        }
 
         $Google = new SearchViaCurl($this->kw);
 
@@ -71,8 +69,9 @@ class Qwanturank
 
     public function getQwantResults()
     {
-        if ($this->qwantResults)
+        if ($this->qwantResults) {
             return $this->qwantResults;
+        }
 
         $Qwant = new QwantSearchViaCurl($this->kw);
 
